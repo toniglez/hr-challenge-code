@@ -1,35 +1,23 @@
 # Inbound Carrier Sales - Internal API
 
-📈 Overview
-
-This repository was vibe-coded by Antonio González Ferreira as a solution to the technical challenge proposed by HappyRobot, focused on building an inbound carrier sales system.
-
-This repository was created as a solution to the technical challenge proposed by HappyRobot, focused on building an inbound carrier sales system.
-
-It provides a backend API that supports the required logic for carrier interactions, call tracking, load management, and optional metrics visualization.
-
-System Architecture
-
-The following diagram provides a high-level view of the infrastructure and how components interact:
-
-![System Overview](assets/challenge_system.png)
-
-This repository implements the Internal REST API module shown in the architecture diagram. It is responsible for managing freight load data and call interactions, supporting the inbound carrier engagement flow.
 ## 📅 Useful Links
 
 * [HR Project Call Link (HappyRobot)](https://platform.happyrobot.ai/deployments/u2hvt9impmce/lr4vbo9kfh5j)
 * [Lovable Dashboard (Call Insights)](https://preview--call-whisper-insights-board.lovable.app/)
-* [API Docs (Swagger UI)](https://hr-challenge-code.fly.dev/docs)
+* [Deployed Internal API Docs (Swagger UI)](https://hr-challenge-code.fly.dev/docs)
 
+## 📈 Overview
 
+This repository was vibe-coded by Antonio González Ferreira as a solution to the technical challenge proposed by HappyRobot, focused on building an inbound carrier sales system.
 
-### System Architecture
+It provides a backend API that supports the required logic for carrier interactions, call tracking, load management, and optional metrics visualization.
 
-The following diagram provides a high-level view of the infrastructure and how components interact:
+The following diagram provides a high-level view of the infrastructure and how this repo code interacts with the rest of the developed system. The entire system has been engineered using the following technologies and modules:
 
-!\[System Overview]\(assets/challenge\_system.png)
+![System Overview](assets/challenge_system.png)
 
 This repository implements the **Internal REST API** module shown in the architecture diagram. It is responsible for managing freight load data and call interactions, supporting the inbound carrier engagement flow.
+
 
 ## 🚀 Features
 

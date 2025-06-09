@@ -14,7 +14,7 @@ It provides a backend API that supports the required logic for carrier interacti
 
 The following diagram provides a high-level view of the infrastructure and how this repo code interacts with the rest of the developed system. The entire system has been engineered using the following technologies and modules:
 
-![System Overview](assets/challenge_system.png)
+![System Overview](assets/challenge_sys.png)
 
 This repository implements the **Internal REST API** module shown in the architecture diagram. It is responsible for managing freight load data and call interactions, supporting the inbound carrier engagement flow.
 

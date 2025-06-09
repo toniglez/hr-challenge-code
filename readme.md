@@ -1,18 +1,43 @@
-# Inbound Carrier Sales - FDE Technical Challenge
+# Inbound Carrier Sales - Internal API
 
-## 📊 Overview
+📈 Overview
 
-This project implements an inbound use case for carrier engagement using the **HappyRobot** platform. It simulates an AI assistant that handles calls from carriers looking to book freight loads, negotiates offers, and classifies calls by outcome and sentiment.
+This repository was vibe-coded by Antonio González Ferreira as a solution to the technical challenge proposed by HappyRobot, focused on building an inbound carrier sales system.
+
+This repository was created as a solution to the technical challenge proposed by HappyRobot, focused on building an inbound carrier sales system.
+
+It provides a backend API that supports the required logic for carrier interactions, call tracking, load management, and optional metrics visualization.
+
+System Architecture
+
+The following diagram provides a high-level view of the infrastructure and how components interact:
+
+![System Overview](assets/challenge_system.png)
+
+This repository implements the Internal REST API module shown in the architecture diagram. It is responsible for managing freight load data and call interactions, supporting the inbound carrier engagement flow.
+## 📅 Useful Links
+
+* [HR Project Call Link (HappyRobot)](https://platform.happyrobot.ai/deployments/u2hvt9impmce/lr4vbo9kfh5j)
+* [Lovable Dashboard (Call Insights)](https://preview--call-whisper-insights-board.lovable.app/)
+* [API Docs (Swagger UI)](https://hr-challenge-code.fly.dev/docs)
+
+
+
+### System Architecture
+
+The following diagram provides a high-level view of the infrastructure and how components interact:
+
+!\[System Overview]\(assets/challenge\_system.png)
+
+This repository implements the **Internal REST API** module shown in the architecture diagram. It is responsible for managing freight load data and call interactions, supporting the inbound carrier engagement flow.
 
 ## 🚀 Features
 
-* Load search from internal API
-* Carrier MC number validation via FMCSA API
-* Load details pitching and offer negotiation (up to 3 rounds)
-* Call classification (outcome and sentiment)
-* Call transfer to sales rep upon agreement
-* REST API built with FastAPI + SQLAlchemy
-* Containerized with Docker
+* Load listing and filtering
+* Call logging and classification (sentiment, outcome)
+* Carrier verification and negotiation tracking
+* Built using FastAPI and SQLAlchemy
+* Docker-ready and deployable via Fly.io
 
 ## 🔧 Technologies
 
@@ -21,9 +46,13 @@ This project implements an inbound use case for carrier engagement using the **H
 * SQLAlchemy
 * PostgreSQL
 * Docker
-* Fly.io (for deployment)
+* Fly.io (deployment)
 
 ## ✅ How to Run Locally
+
+By default, the project runs with a local SQLite database for ease of development.
+
+For production environments, it's recommended to use PostgreSQL. If deploying to Fly.io, follow the steps below to attach a managed Postgres instance and configure it properly using environment secrets.
 
 ### Requirements
 
@@ -51,31 +80,108 @@ docker run -p 8000:8000 carrier-inbound-api
 
 ## 🌐 API Overview
 
-The API provides endpoints for managing loads, calls, and interacting with the assistant. API key authentication is required on all endpoints.
+The API has endpoints grouped in four main areas:
+
+### `/loads` Endpoints
+
+* `GET /loads` - Retrieve future available loads
+* `POST /loads` - Create a new load
+* `GET /loads/search` - Advanced search with filters (origin, destination, equipment, weight, miles, dates, etc.)
+
+### `/calls` Endpoints
+
+* `POST /calls` - Create a new call record
+* `GET /calls` - Retrieve all call records
+* `GET /calls/{call_id}` - Retrieve details of a single call
+* `POST /calls/update/{call_id}` - Update a call record
+* `DELETE /calls` - Delete all call records
+
+### `/health` Endpoint
+
+* `GET /health` - Simple health check
+
+> Note: `/metrics/agent` is used internally to power the optional dashboard (not part of the public API contract).
+
+All endpoints require an `x-api-key` header for authentication.
 
 ## 🌐 Deployment
 
-Deployed using Fly.io. See `fly.toml` and Dockerfile for configuration.
+### Deploy to Fly.io
 
-## 📈 Optional Features
+1. **Install Fly CLI**
 
-* [ ] Dashboard for metrics (pending or optional)
+```bash
+curl -L https://fly.io/install.sh | sh
+```
 
-## 📢 Deliverables
+2. **Authenticate with Fly.io**
 
-1. Code Repository (this repo)
-2. Link to HappyRobot configuration (see platform)
-3. Video Demo (not included here)
+```bash
+fly auth login
+```
 
-## 🔒 Security
+3. **Initialize the app (only once)**
+
+```bash
+fly launch
+```
+
+* Choose a name or accept the default
+* Select region
+* Decline PostgreSQL if you're setting it up manually
+
+4. **Provision a PostgreSQL Database**
+
+```bash
+fly postgres create --name carrier-db
+```
+
+* Choose a region
+* Wait for the provisioning to complete
+
+5. **Attach the Database to Your App**
+
+```bash
+fly postgres attach --app carrier-inbound-api carrier-db
+```
+
+This will automatically set the `DATABASE_URL` secret for your app.
+
+If you need to set or override it manually, you can do so with:
+
+```bash
+fly secrets set DATABASE_URL=postgres://username:password@host:port/dbname
+```
+
+Make sure the connection string matches your Postgres configuration.
+
+6. **Set Additional Secrets (e.g. API keys)**
+
+```bash
+fly secrets set API_KEY=your_api_key FMCSA_KEY=your_fmcsa_key
+```
+
+7. **Deploy the App**
+
+```bash
+fly deploy
+```
+
+8. **Access your deployment**
+   Fly.io will provide a URL like:
+
+```
+https://carrier-inbound-api.fly.dev
+```
+
+Refer to `fly.toml` for environment configuration and port mappings.
+
+## 🔐 Security
 
 * API key authentication on all endpoints
 * CORS enabled
-* Secret handling via environment variables (recommended for production)
+* Environment variable management for secrets
 
-## 📄 License
-
-MIT License
 
 ---
 
